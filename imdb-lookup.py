@@ -9,11 +9,13 @@
 # Licence:
 #-------------------------------------------------------------------------------
 
-import urllib
+import urllib2
 import json
 import webbrowser
 
 import sys
+
+API_KEY = ""
 
 def finder(name):
     replace = [".avi","1.4","5.1","-","DVDRip","BRRip","XviD","1CDRip","aXXo","[","]","(",")","{","}","{{","}}"
@@ -43,10 +45,12 @@ def finder(name):
         name = name.replace(value," ")
 
     name = name.strip();
+    name = name.replace(" ", "+")
 
     if year!=0:
-        url = "http://www.omdbapi.com/?t="+name+"&y="+str(year)
-        response = urllib.urlopen(url).read()
+        url = "http://www.omdbapi.com/?apikey="+API_KEY+"&t="+name+"&y="+str(year)
+        print(url)
+        response = urllib2.urlopen(url).read()
         jsonvalues = json.loads(response)
         if jsonvalues["Response"]=="True":
             movieurl = "www.imdb.com/title/" + jsonvalues['imdbID']
